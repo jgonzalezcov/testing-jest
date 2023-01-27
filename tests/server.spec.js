@@ -65,3 +65,5 @@ describe('Operaciones CRUD de cafes', () => {
     })
   })
 })
+
+kill(3000, 'tcp')
