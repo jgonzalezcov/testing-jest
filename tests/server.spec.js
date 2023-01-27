@@ -15,4 +15,35 @@ const maxId = () => {
   const id = resultadosOrdenados.id + 1
   return id
 }
-describe('Operaciones CRUD de cafes', () => {})
+describe('Operaciones CRUD de cafes', () => {
+  describe('GET/cafes', () => {
+    it('Obteniendo un 200 al ir a buscar los cafes', async () => {
+      const resp = await request(server).get('/cafes').send()
+      const status = resp.statusCode
+      expect(status).toBe(200)
+    })
+    it('Verificacion tipo de dato arreglo', async () => {
+      const resp = await request(server).get('/cafes').send()
+      const product = resp.body
+      expect(product).toBeInstanceOf(Array)
+    })
+    it('Verificacion que el arreglo tenga al menos un objeto', async () => {
+      const resp = await request(server).get('/cafes').send()
+      const products = resp.body
+      const findObject = cafes.some((c) => typeof c == 'object')
+      expect(findObject).toBe(true)
+    })
+  })
+  describe('DELETE/cafes/id', () => {
+    it('Obteniendo un 404 al querer eliminar un cafe con id inexistente', async () => {
+      const jwt = 'token'
+      const id = await maxId()
+      const resp = await request(server)
+        .delete(`/cafes/${id}`)
+        .set('Authorization', jwt)
+        .send()
+      const status = resp.statusCode
+      expect(status).toBe(404)
+    })
+  })
+})
