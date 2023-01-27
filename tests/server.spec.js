@@ -55,4 +55,13 @@ describe('Operaciones CRUD de cafes', () => {
       expect(status).toBe(201)
     })
   })
+  describe('PUT/cafes/id', () => {
+    it('Obteniendo un 400 al querer actulizar un cafe donde el id de parametros sea distinto al del payload', async () => {
+      const id = 1
+      const producto = { id: 2, nombre: 'Cafe actualizado de prueba' }
+      const resp = await request(server).put(`/cafes/${id}`).send(producto)
+      const status = resp.statusCode
+      expect(status).toBe(400)
+    })
+  })
 })
