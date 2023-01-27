@@ -46,4 +46,13 @@ describe('Operaciones CRUD de cafes', () => {
       expect(status).toBe(404)
     })
   })
+  describe('POST/cafes', () => {
+    it('Obteniendo un 201 Agregando un cafe', async () => {
+      const id = await maxId()
+      const producto = { id, nombre: 'Nuevo cafe de prueba' }
+      const response = await request(server).post('/cafes/').send(producto)
+      const status = response.statusCode
+      expect(status).toBe(201)
+    })
+  })
 })
